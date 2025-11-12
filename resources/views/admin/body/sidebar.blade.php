@@ -48,21 +48,35 @@
                                 </a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="document-drafts.html" class="nk-menu-link">
+                                <a href="{{route('admin.change.password')}}" class="nk-menu-link">
                                     <span class="nk-menu-text">Change Password</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="nk-menu-item">
-                        <a href="profile.html" class="nk-menu-link">
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon">
-                                            <em class="icon ni ni-user"></em>
+                                            <em class="icon ni ni-folder-list"></em>
                                         </span>
-                            <span class="nk-menu-text">Profile</span>
+                            <span class="nk-menu-text">Plans</span>
                         </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item">
+                                <a href="{{route('all.plans')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">All Plans</span>
+                                </a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="" class="nk-menu-link">
+                                    <span class="nk-menu-text">Add Plan</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
+
                     <li class="nk-menu-item">
                         <a href="{{route('admin.logout')}}" class="nk-menu-link">
                                         <span class="nk-menu-icon">
@@ -95,7 +109,7 @@
                 <a class="d-flex px-3 py-2 bg-primary bg-opacity-10 rounded-bottom-3" href="profile.html">
                     <div class="media-group">
                         <div class="media media-sm media-middle media-circle text-bg-primary">
-                            <img src="{{asset('backend/images/avatar/a.png')}}" />
+                            <img src="{{!empty($profileData->photo) ? url('upload/admin_images/'.$profileData->photo ):url('upload/no_image.jpg')}}" />
                         </div>
                         <div class="media-text">
                             <h6 class="fs-6 mb-0">{{$profileData->name}}</h6>

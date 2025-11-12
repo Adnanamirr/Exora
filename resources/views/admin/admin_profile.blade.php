@@ -31,7 +31,7 @@
                                                 aria-label="Close"></button>
                                     </div>
                                 @endif
-                                <form method="post" action="{{route('admin.profile.store')}}"
+                                <form method="post" action="{{route('admin.profile.Update')}}"
                                       enctype="multipart/form-data">
                                 @csrf
                                     <div class="row g-3 gx-gs">

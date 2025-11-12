@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\backend\admin\AdminController;
+use App\Http\Controllers\backend\admin\PlansController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +19,19 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         return view('admin.dashboard');
     })->name('admin.dashboard');
 
-    Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
-    Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
-    Route::post('/admin/profile', [AdminController::class, 'AdminProfileStore'])->name('admin.profile.store');
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/logout', 'AdminLogout')->name('admin.logout');
+        Route::get('/profile', 'AdminProfile')->name('admin.profile');
+        Route::post('/profile', 'AdminProfileUpdate')->name('admin.profile.Update');
+        Route::get('/password', 'AdminChangePassword')->name('admin.change.password');
+        Route::post('/password', 'AdminPasswordUpdate')->name('admin.password.update');
+    });
+Route::controller(PlansController::class)->group(function () {
+
+    Route::get('/all-plans',  'AllPlans')->name('all.plans');
+
+});
+
 });
 
 Route::middleware('auth')->group(function () {

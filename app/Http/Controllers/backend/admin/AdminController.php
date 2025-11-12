@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\backend\admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -28,7 +30,7 @@ class AdminController extends Controller
         return view('admin.admin_profile', compact('profileData'));
     }
 
-    public function AdminProfileStore(Request $request)
+    public function AdminProfileUpdate(Request $request)
     {
         $user = Auth::user();
 
@@ -64,9 +66,55 @@ class AdminController extends Controller
 
         $user->save();
 
-        return redirect()->back()->with([
-            'message' => 'Admin Profile Updated Successfully',
-            'alert-type' => 'success'
-        ]);
+        $notification = array('message' => 'Profile Updated Successfully', 'alert-type' => 'success');
+
+        return redirect()->back()->with($notification);
     }
+
+
+    public function AdminChangePassword()
+    {
+        return view('admin.admin_change_password');
+    }
+
+    public function AdminPasswordUpdate(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed|min:8',
+            'new_password_confirmation' => 'required'
+        ]);
+
+        // Check if the old password matches
+        if (!Hash::check($request->old_password, Auth::user()->password)) {
+            $notification = array(
+                'message' => 'Old Password Does not Match!',
+                'alert-type' => 'error'
+            );
+            return back()->with($notification);
+        }
+
+        // Check if new password and confirmation match
+        if ($request->new_password !== $request->new_password_confirmation) {
+            $notification = array(
+                'message' => 'New Password and Confirmation Do Not Match!',
+                'alert-type' => 'error'
+            );
+            return back()->with($notification);
+        }
+
+        // Update the password
+        User::whereId(Auth::user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        $notification = array(
+            'message' => 'Password Changed Successfully',
+            'alert-type' => 'success'
+        );
+
+        return back()->with($notification);
+    }
+
 }
