@@ -16,87 +16,45 @@
             </a>
         </div><!-- end nk-sidebar-brand -->
     </div><!-- end nk-sidebar-element -->
+
+    @php
+    $id = Auth::user()->id;
+    $profileData = App\Models\User::find($id);
+    @endphp
     <div class="nk-sidebar-element nk-sidebar-body">
         <div class="nk-sidebar-content h-100" data-simplebar>
             <div class="nk-sidebar-menu">
                 <ul class="nk-menu">
                     <li class="nk-menu-item">
-                        <a href="index.html" class="nk-menu-link">
+                        <a href="{{route('admin.dashboard')}}" class="nk-menu-link">
                                         <span class="nk-menu-icon">
                                             <em class="icon ni ni-dashboard-fill"></em>
                                         </span>
                             <span class="nk-menu-text">Dashboard</span>
                         </a>
                     </li>
+
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon">
                                             <em class="icon ni ni-folder-list"></em>
                                         </span>
-                            <span class="nk-menu-text">Documents</span>
+                            <span class="nk-menu-text">Account</span>
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item">
-                                <a href="document-saved.html" class="nk-menu-link">
-                                    <span class="nk-menu-text">Saved</span>
+                                <a href="{{route('admin.profile')}}" class="nk-menu-link">
+                                    <span class="nk-menu-text">Profile</span>
                                 </a>
                             </li>
                             <li class="nk-menu-item">
                                 <a href="document-drafts.html" class="nk-menu-link">
-                                    <span class="nk-menu-text">Drafts</span>
+                                    <span class="nk-menu-text">Change Password</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon">
-                                            <em class="icon ni ni-edit"></em>
-                                        </span>
-                            <span class="nk-menu-text">Editor</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="document-editor.html" class="nk-menu-link">
-                                    <span class="nk-menu-text">New</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="document-editor-generate.html" class="nk-menu-link">
-                                    <span class="nk-menu-text">Generate</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="document-editor-edit.html" class="nk-menu-link">
-                                    <span class="nk-menu-text">Edit</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="templates.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon">
-                                            <em class="icon ni ni-layers"></em>
-                                        </span>
-                            <span class="nk-menu-text">Templates</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="history.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon">
-                                            <em class="icon ni ni-clock"></em>
-                                        </span>
-                            <span class="nk-menu-text">History</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="pricing-plans.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon">
-                                            <em class="icon ni ni-sign-usdc"></em>
-                                        </span>
-                            <span class="nk-menu-text">Pricing Plans</span>
-                        </a>
-                    </li>
+
                     <li class="nk-menu-item">
                         <a href="profile.html" class="nk-menu-link">
                                         <span class="nk-menu-icon">
@@ -113,117 +71,7 @@
                             <span class="nk-menu-text">Logout</span>
                         </a>
                     </li>
-                    <li class="nk-menu-heading">
-                        <h6 class="overline-title">Components</h6>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-buttons.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-view-grid-wd"></em>
-                                        </span>
-                            <span class="nk-menu-text">Buttons</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-badges.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-ticket"></em>
-                                        </span>
-                            <span class="nk-menu-text">Badges</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-alert.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-alert"></em>
-                                        </span>
-                            <span class="nk-menu-text">Alert</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-dropdown.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-notify"></em>
-                                        </span>
-                            <span class="nk-menu-text">Dropdown</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-todo"></em>
-                                        </span>
-                            <span class="nk-menu-text">Forms</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="component-form-basic.html" class="nk-menu-link">
-                                    <span class="nk-menu-text">Form Basic</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="component-form-advanced.html" class="nk-menu-link">
-                                    <span class="nk-menu-text">Form Advanced</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-tabs.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-browser"></em>
-                                        </span>
-                            <span class="nk-menu-text">Tabs</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-modals.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-property"></em>
-                                        </span>
-                            <span class="nk-menu-text">Modal</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-popover-tooltip.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-chat"></em>
-                                        </span>
-                            <span class="nk-menu-text">Popover &amp; Tooltips</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-accordion.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-view-x7"></em>
-                                        </span>
-                            <span class="nk-menu-text">Accordion</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-card.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-card-view"></em>
-                                        </span>
-                            <span class="nk-menu-text">Card</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-offcanvas.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-layout-alt"></em>
-                                        </span>
-                            <span class="nk-menu-text">Offcanvas</span>
-                        </a>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="component-toasts.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon is-alt">
-                                            <em class="icon ni ni-block-over"></em>
-                                        </span>
-                            <span class="nk-menu-text">Toasts</span>
-                        </a>
-                    </li>
+
                 </ul>
             </div><!-- .nk-sidebar-menu -->
         </div><!-- .nk-sidebar-content -->
@@ -250,8 +98,8 @@
                             <img src="{{asset('backend/images/avatar/a.png')}}" />
                         </div>
                         <div class="media-text">
-                            <h6 class="fs-6 mb-0">Shawn Mahbub</h6>
-                            <span class="text-light fs-7">shawn@websbd.com</span>
+                            <h6 class="fs-6 mb-0">{{$profileData->name}}</h6>
+                            <span class="text-light fs-7">{{$profileData->email}}</span>
                         </div>
                         <em class="icon ni ni-chevron-right ms-auto ps-1"></em>
                     </div>

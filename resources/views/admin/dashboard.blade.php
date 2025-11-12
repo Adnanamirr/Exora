@@ -18,8 +18,7 @@
         <div class="nk-wrap">
 
             @include('admin.body.mobile_sidebar')
-
-            @include('admin.index')
+            @yield('admin')
 
             @include('admin.body.footer')
         </div>
