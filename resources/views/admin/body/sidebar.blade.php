@@ -33,11 +33,19 @@
                             <span class="nk-menu-text">Dashboard</span>
                         </a>
                     </li>
+                    <li class="nk-menu-item">
+                        <a href="{{route('all.templates')}}" class="nk-menu-link">
+                                        <span class="nk-menu-icon">
+                                            <em class="icon ni ni-template"></em>
+                                        </span>
+                            <span class="nk-menu-text">Templates</span>
+                        </a>
+                    </li>
 
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon">
-                                            <em class="icon ni ni-folder-list"></em>
+                                            <em class="icon ni ni-coins"></em>
                                         </span>
                             <span class="nk-menu-text">Account</span>
                         </a>
@@ -69,7 +77,7 @@
                                 </a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="" class="nk-menu-link">
+                                <a href="{{route('add.plan')}}" class="nk-menu-link">
                                     <span class="nk-menu-text">Add Plan</span>
                                 </a>
                             </li>
@@ -80,7 +88,7 @@
                     <li class="nk-menu-item">
                         <a href="{{route('admin.logout')}}" class="nk-menu-link">
                                         <span class="nk-menu-icon">
-                                            <em class="icon ni ni-wallet"></em>
+                                            <em class="icon ni ni-signout"></em>
                                         </span>
                             <span class="nk-menu-text">Logout</span>
                         </a>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\backend\admin\AdminController;
 use App\Http\Controllers\backend\admin\PlansController;
+use App\Http\Controllers\backend\admin\TemplateController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -29,8 +30,21 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 Route::controller(PlansController::class)->group(function () {
 
     Route::get('/all-plans',  'AllPlans')->name('all.plans');
+    Route::get('/add-plan',  'AddPlan')->name('add.plan');
+    Route::post('/add-plan',  'StorePlan')->name('add.plan.store');
+    Route::get('/edit-plan/{id}',  'EditPlan')->name('edit.plan');
+    Route::put('/update-plan/{id}', 'UpdatePlan')->name('update.plan');
+    Route::delete('/delete-plan/{id}', 'Destroy')->name('delete.plan');
+});
+
+Route::controller(TemplateController::class)->group(function () {
+   Route::get('/all-templates', 'AllTemplates')->name('all.templates');
+    Route::get('/add-template',  'AddTemplate')->name('add.template');
+    Route::post('/add-template',  'StoreTemplate')->name('store.template');
+
 
 });
+
 
 });
 

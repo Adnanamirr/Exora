@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('monthly_word_limit');
-            $table->decimal('monthly_price', 8, 2)->nullable();
+            $table->decimal('price', 8, 2)->nullable();
             $table->string('templates')->nullable();
             $table->timestamps();
         });
