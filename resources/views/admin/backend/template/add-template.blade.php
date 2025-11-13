@@ -40,15 +40,49 @@
                                                     <label class="form-label" for="title">Title</label>
                                                     <input type="text"
                                                            class="form-control @error('title') is-invalid @enderror"
-                                                           id="title" name="title" placeholder="Enter template title">
+                                                           id="title" name="title" placeholder="Enter template title"
+                                                           value="{{ old('title') }}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label" for="category">Category</label>
-                                                    <input type="text"
-                                                           class="form-control @error('category') is-invalid @enderror"
-                                                           id="category" name="category" placeholder="Enter category">
+                                                    <select class="form-select @error('category') is-invalid @enderror"
+                                                            id="category" name="category">
+                                                        <option value="">Select Category</option>
+                                                        <option
+                                                            value="ads" {{ old('category') == 'ads' ? 'selected' : '' }}>
+                                                            Ads
+                                                        </option>
+                                                        <option
+                                                            value="articles" {{ old('category') == 'articles' ? 'selected' : '' }}>
+                                                            Articles and Contents
+                                                        </option>
+                                                        <option
+                                                            value="blog_post" {{ old('category') == 'blog_post' ? 'selected' : '' }}>
+                                                            Blog Post
+                                                        </option>
+                                                        <option
+                                                            value="ecommerce" {{ old('category') == 'ecommerce' ? 'selected' : '' }}>
+                                                            Ecommerce
+                                                        </option>
+                                                        <option
+                                                            value="website" {{ old('category') == 'website' ? 'selected' : '' }}>
+                                                            Website
+                                                        </option>
+                                                        <option
+                                                            value="social_media" {{ old('category') == 'social_media' ? 'selected' : '' }}>
+                                                            Social Media
+                                                        </option>
+                                                        <option
+                                                            value="marketing" {{ old('category') == 'marketing' ? 'selected' : '' }}>
+                                                            Marketing
+                                                        </option>
+                                                        <option
+                                                            value="email" {{ old('category') == 'email' ? 'selected' : '' }}>
+                                                            Email
+                                                        </option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -57,7 +91,7 @@
                                                     <textarea
                                                         class="form-control @error('description') is-invalid @enderror"
                                                         id="description" name="description" rows="3"
-                                                        placeholder="Enter description"></textarea>
+                                                        placeholder="Enter description">{{ old('description') }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -65,7 +99,7 @@
                                                     <label class="form-label" for="icon">Icon</label>
                                                     <input type="text" placeholder="i.e <i class='icon ni ni-laptop'></i>"
                                                            class="form-control @error('icon') is-invalid @enderror"
-                                                           id="icon" name="icon">
+                                                           id="icon" name="icon" value="{{ old('icon') }}">
                                                 </div>
                                             </div>
 
@@ -86,24 +120,77 @@
                                                         <div class="col-md-3">
 
                                                             <div class="form-group">
-                                                                <label for="TemplateFormControlInputText1"
+                                                                <label for="input_fields_0_title"
                                                                        class="form-label">Input Field Title *</label>
 
                                                                <div class="form-control-wrap">
-                                                                   <input type="text" name="description"
-                                                                          id="TemplateFormControlInputText1" class="form-control"
-                                                                   >
+                                                                   <input type="text" name="input_fields[0][title]" id="input_fields_0_title"
+                                                                          placeholder="Enter Input Field Title"
+                                                                           class="form-control" required>
                                                                </div>
                                                             </div>
 
+                                                        </div>
 
+                                                        <div class="col-md-3">
+
+                                                            <div class="form-group">
+                                                                <label for="input_fields_0_title"
+                                                                       class="form-label">Input Field Description *</label>
+
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" name="input_fields[0][description]" id="input_fields_0_description"
+                                                                           placeholder="Enter Input Field Description"
+                                                                            class="form-control" required>
+
+                                                                </div>
+                                                            </div>
 
                                                         </div>
+
+
+                                                        <div class="col-md-3">
+
+                                                            <div class="form-group">
+                                                                <label for="input_fields_0_type"
+                                                                       class="form-label">Field Type</label>
+
+                                                                <div class="form-control-wrap">
+                                                                    <select name="input_fields[0][type]" id="input_fields_0_type"   class="form-select" required>
+                                                                        <option value="text">Input Field</option>
+                                                                        <option value="textarea">Textarea Field</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="col-md-3">
+
+                                                            <div class="form-group">
+                                                                <label  class="form-label"></label>
+
+                                                                <div class="form-control-wrap">
+                                                                    <input type="hidden" name="input_fields[0][is_required]" value="1">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
                                                     </div>
                                                 </dic>
                                             </div>
 
-
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="prompt">Custom Prompt *</label>
+                                                    <textarea class="form-control @error('prompt') is-invalid @enderror"
+                                                              id="prompt" name="prompt" rows="5"
+                                                              placeholder="Enter prompt">{{ old('prompt') }}</textarea>
+                                                    <small class="form-text text-muted">Write a 400 word article about {topic} with an introduction .</small>
+                                                </div>
+                                            </div>
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <button type="submit" class="btn btn-primary">Create Template

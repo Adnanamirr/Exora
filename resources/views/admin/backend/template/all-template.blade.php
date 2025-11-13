@@ -50,16 +50,18 @@
                     <div class="row g-gs filter-container" data-animation="true">
                         @foreach($templates as $item)
                             <div class="col-sm-6 col-lg-4 filter-item blog-content" data-category="blog-content">
-                                <div class="card card-full shadow-none">
-                                    <div class="card-body">
-                                        <div
-                                            class="media media-rg media-middle media-circle text-primary bg-primary bg-opacity-20 mb-3">
-                                            <em class="{{$item->icon}}"></em>
+                                <a href="{{route('edit.template' , $item->id)}}" class="text-decoration-none">
+                                    <div class="card card-full shadow-none hover-shadow transition-shadow">
+                                        <div class="card-body">
+                                            <div
+                                                class="media media-rg media-middle media-circle text-primary bg-primary bg-opacity-20 mb-3">
+                                                <em class="{{$item->icon}}"></em>
+                                            </div>
+                                            <h5 class="fs-4 fw-medium">{{$item->title}}</h5>
+                                            <p class="small text-light line-clamp-2">{{$item->description}}</p>
                                         </div>
-                                        <h5 class="fs-4 fw-medium">{{$item->title}}</h5>
-                                        <p class="small text-light line-clamp-2">{{$item->description}}</p>
-                                    </div>
-                                </div><!-- .card -->
+                                    </div><!-- .card -->
+                                </a>
                             </div><!-- .col -->
                         @endforeach
                     </div><!-- .row -->

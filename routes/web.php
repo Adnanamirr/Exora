@@ -16,6 +16,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () {
+
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
@@ -41,6 +42,9 @@ Route::controller(TemplateController::class)->group(function () {
    Route::get('/all-templates', 'AllTemplates')->name('all.templates');
     Route::get('/add-template',  'AddTemplate')->name('add.template');
     Route::post('/add-template',  'StoreTemplate')->name('store.template');
+    Route::get('/edit-template/{id}',  'EditTemplate')->name('edit.template');
+    Route::put('/update-template/{id}', 'UpdateTemplate')->name('update.template');
+    Route::delete('/delete-template/{id}', 'DestroyTemplate')->name('delete.template');
 
 
 });

@@ -1,5 +1,5 @@
-{{--@extends('admin.dashboard')--}}
-{{--@section('admin')--}}
+@extends('admin.dashboard')
+@section('admin')
 <div class="nk-content">
     <div class="container-xl">
         <div class="nk-content-inner">
@@ -135,4 +135,4 @@
     </div>
 </div>
 
-{{--@endsection--}}
+@endsection
