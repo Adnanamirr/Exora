@@ -103,4 +103,13 @@ class TemplateController extends Controller
         return redirect()->route('all.templates')->with($notification);
     }
 
+
+    public function TemplateDetails($id)
+    {
+        $template = Template::with('inputFields')->findOrFail($id);
+        $user = auth()->user();
+        return view('admin.backend.template.template-details' , compact('template' , 'user'));
+
+    }
+
 }

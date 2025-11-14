@@ -12,6 +12,7 @@
                                 <h3 class="nk-block-title">Edit Template</h3>
                             </div>
                         </div>
+
                         <div class="card shadow-none">
                             <div class="card-body">
                                 @if(session('success'))
