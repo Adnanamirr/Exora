@@ -1,78 +1,87 @@
 @extends('admin.dashboard')
 @section('admin')
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <div class="nk-content">
-        <div class="container-xl">
-            <div class="nk-content-inner">
-                <div class="nk-content-body">
+    <div class="nk-content-inner">
+        <div class="nk-content-body">
+            <div class="nk-block-head nk-page-head">
+                <div class="nk-block-head-between">
+                    <div class="nk-block-head-content">
+                        <h2 class="display-6">Change Password  </h2>
 
-                    <div class="nk-block">
-                        <div class="nk-block-head nk-block-head-sm">
-                            <div class="nk-block-head-content">
-                                <h3 class="nk-block-title">Change Password</h3>
-                            </div>
-                        </div><!-- .nk-block-head -->
-                        <div class="card shadow-none">
-                            <div class="card-body">
-                                <form method="post" action="{{ route('admin.change.password') }}"
-                                      enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="row g-3 gx-gs">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label" for="old_password">Old Password</label>
-                                                <input type="password"
-                                                       class="form-control @error('old_password') is-invalid @enderror"
-                                                       id="old_password" name="old_password"
-                                                       placeholder="Enter Old Password">
-                                                @error('old_password')
-                                                <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
+                    </div>
+                </div>
+            </div><!-- .nk-page-head -->
+            <div class="nk-block">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-head-content">
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label" for="new_password">New Password</label>
-                                                <input type="password"
-                                                       class="form-control @error('new_password') is-invalid @enderror"
-                                                       id="new_password" name="new_password" placeholder="Enter New Password">
-                                                @error('new_password')
-                                                <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
+                    </div>
+                </div><!-- .nk-block-head -->
+                <div class="card shadown-none">
+                    <div class="card-body">
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label" for="new_password_confirmation">Confirm
-                                                    Password</label>
-                                                <input type="password"
-                                                       class="form-control @error('new_password_confirmation') is-invalid @enderror"
-                                                       id="new_password_confirmation" name="new_password_confirmation" placeholder="Confirm Password">
-                                                @error('new_password_confirmation')
-                                                <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
+                        <form action="{{ route('admin.password.update') }}" method="post" enctype="multipart/form-data">
+                            @csrf
 
+                            <div class="row g-3 gx-gs">
 
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-primary">Change Password</button>
-                                            </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInputText1" class="form-label">Old Password </label>
+                                        <div class="form-control-wrap">
+                                            <input type="password" name="old_password" id="old_password" class="form-control @error('old_password') is-invalid @enderror " placeholder="Old Password"  >
+                                            @error('old_password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
-                                </form>
-                            </div><!-- .card-body -->
-                        </div><!-- .card -->
-                    </div><!-- .nk-block -->
+                                </div>
 
-                </div>
-            </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInputText1" class="form-label">New Password </label>
+                                        <div class="form-control-wrap">
+                                            <input type="password" name="new_password" id="new_password" class="form-control @error('new_password') is-invalid @enderror " placeholder="New Password"  >
+                                            @error('new_password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInputText1" class="form-label">Confirm Password </label>
+                                        <div class="form-control-wrap">
+                                            <input type="password" name="new_password_confirmation" id="new_password_confirmation" class="form-control" placeholder="New Password Confirmation"  >
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-12 col-xl-12">
+                                    <button type="submit" class="btn btn-secondary">Save Changes</button>
+                                </div>
+
+
+                            </div>
+                        </form>
+
+
+
+                    </div><!-- .card-body -->
+                </div><!-- .card -->
+            </div><!-- .nk-block -->
+
+
+
         </div>
     </div>
+
+
+
+
+
 
 @endsection

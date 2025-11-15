@@ -1,57 +1,79 @@
 <?php
 
-use App\Http\Controllers\backend\admin\AdminController;
-use App\Http\Controllers\backend\admin\PlansController;
-use App\Http\Controllers\backend\admin\TemplateController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsUser;
+use App\Http\Controllers\Backend\Admin\AdminController;
+use App\Http\Controllers\Backend\Admin\PlanController;
+use App\Http\Controllers\Backend\Admin\TemplateController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
+/// User Routes
+Route::middleware(['auth', IsUser::class])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+});
+/// Eend User Routes
+
+
+/// Admin Routes
 Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () {
 
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+        return view('admin.index');
     })->name('admin.dashboard');
 
-    Route::controller(AdminController::class)->group(function () {
-        Route::get('/logout', 'AdminLogout')->name('admin.logout');
-        Route::get('/profile', 'AdminProfile')->name('admin.profile');
-        Route::post('/profile', 'AdminProfileUpdate')->name('admin.profile.Update');
-        Route::get('/password', 'AdminChangePassword')->name('admin.change.password');
-        Route::post('/password', 'AdminPasswordUpdate')->name('admin.password.update');
+
+    Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
+    Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
+    Route::post('/admin/profile/store', [AdminController::class, 'AdminProfileStore'])->name('admin.profile.store');
+
+    Route::get('/admin/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
+    Route::post('/admin/password/update', [AdminController::class, 'AdminPasswordUpdate'])->name('admin.password.update');
+
+
+
+    Route::controller(PlanController::class)->group(function(){
+        Route::get('/all/plans', 'AllPlans')->name('all.plans');
+        Route::get('/add/plans', 'AddPlans')->name('add.plans');
+        Route::post('/store/plans', 'StorePlans')->name('store.plans');
+        Route::get('/edit/plans/{id}', 'EditPlans')->name('edit.plans');
+        Route::post('/update/plans', 'UpdatePlans')->name('update.plans');
+        Route::get('/delete/plans/{id}', 'DeletePlans')->name('delete.plans');
     });
-Route::controller(PlansController::class)->group(function () {
 
-    Route::get('/all-plans',  'AllPlans')->name('all.plans');
-    Route::get('/add-plan',  'AddPlan')->name('add.plan');
-    Route::post('/add-plan',  'StorePlan')->name('add.plan.store');
-    Route::get('/edit-plan/{id}',  'EditPlan')->name('edit.plan');
-    Route::put('/update-plan/{id}', 'UpdatePlan')->name('update.plan');
-    Route::delete('/delete-plan/{id}', 'Destroy')->name('delete.plan');
+
+    Route::controller(TemplateController::class)->group(function(){
+        Route::get('/admin/template', 'AdminTemplate')->name('admin.template');
+        Route::get('/add/template', 'AddTemplate')->name('add.template');
+        Route::post('/store/template', 'StoreTemplate')->name('store.template');
+
+        Route::get('/edit/template/{id}', 'EditTemplate')->name('edit.template');
+        Route::post('/update/template/{id}', 'UpdateTemplate')->name('update.template');
+
+        Route::get('/details/template/{id}', 'DetailsTemplate')->name('details.template');
+
+        Route::post('/content/generate/{id}', 'AdminContentGenerate')->name('content.generate');
+
+
+
+    });
+
+
+
+
+
 });
+/// End Admin Routes
 
-Route::controller(TemplateController::class)->group(function () {
-   Route::get('/all-templates', 'AllTemplates')->name('all.templates');
-    Route::get('/add-template',  'AddTemplate')->name('add.template');
-    Route::post('/add-template',  'StoreTemplate')->name('store.template');
-    Route::get('/edit-template/{id}',  'EditTemplate')->name('edit.template');
-    Route::put('/update-template/{id}', 'UpdateTemplate')->name('update.template');
-    Route::get('/template-details/{id}', 'TemplateDetails')->name('details.template');
-    Route::delete('/delete-template/{id}', 'DestroyTemplate')->name('delete.template');
-
-
-});
-
-
-});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

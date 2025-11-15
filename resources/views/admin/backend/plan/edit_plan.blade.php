@@ -1,76 +1,93 @@
 @extends('admin.dashboard')
 @section('admin')
-<div class="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Edit Plan</h4>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('update.plan', $plan->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-                        <div class="row g-3 gx-gs">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="name">Plan Name</label>
-                                    <input type="text"
-                                           class="form-control @error('name') is-invalid @enderror"
-                                           id="name" name="name" value="{{ $plan->name }}"
-                                           placeholder="Enter plan name">
-                                    @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="monthly_word_limit">Monthly Word Limit</label>
-                                    <input type="number"
-                                           class="form-control @error('monthly_word_limit') is-invalid @enderror"
-                                           id="monthly_word_limit" name="monthly_word_limit"
-                                           value="{{ $plan->monthly_word_limit }}"
-                                           placeholder="Enter monthly word limit">
-                                    @error('word_limit')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="price">Price</label>
-                                    <input type="number" step="0.01"
-                                           class="form-control @error('price') is-invalid @enderror"
-                                           id="price" name="price" value="{{ $plan->price }}"
-                                           placeholder="Enter price">
-                                    @error('price')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="templates">Templates</label>
-                                    <input type="text"
-                                           class="form-control @error('templates') is-invalid @enderror"
-                                           id="templates" name="templates"
-                                           value="{{ $plan->templates }}"
-                                           placeholder="Enter templates">
-                                    @error('templates')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </div>
-                        </div>
-                    </form>
+    <div class="nk-content-inner">
+        <div class="nk-content-body">
+            <div class="nk-block-head nk-page-head">
+                <div class="nk-block-head-between">
+                    <div class="nk-block-head-content">
+                        <h2 class="display-6">Edit Plans  </h2>
+
+                    </div>
                 </div>
-            </div>
+            </div><!-- .nk-page-head -->
+            <div class="nk-block">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-head-content">
+
+                    </div>
+                </div><!-- .nk-block-head -->
+                <div class="card shadown-none">
+                    <div class="card-body">
+
+                        <form action="{{ route('update.plans') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+
+                            <input type="hidden" name="id" value="{{ $plans->id }}" >
+
+                            <div class="row g-3 gx-gs">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInputText1" class="form-label">Plan Name </label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="name" class="form-control" value="{{ $plans->name }}" >
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInputText1" class="form-label">Monthly Word Limit </label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="monthly_word_limit" class="form-control" value="{{ $plans->monthly_word_limit }}" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInputText1" class="form-label">Price </label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="price" class="form-control" value="{{ $plans->price }}" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInputText1" class="form-label">Templates </label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" name="templates" class="form-control" value="{{ $plans->templates }}" >
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-lg-12 col-xl-12">
+                                    <button type="submit" class="btn btn-secondary">Save Changes</button>
+                                </div>
+
+
+                            </div>
+                        </form>
+
+
+
+                    </div><!-- .card-body -->
+                </div><!-- .card -->
+            </div><!-- .nk-block -->
+
+
+
         </div>
     </div>
-</div>
+
+
+
+
+
 @endsection
