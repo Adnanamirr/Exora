@@ -8,7 +8,7 @@
     </div>
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
-            <a href="index.html" class="logo-link">
+            <a href="{{route('admin.dashboard')}}" class="logo-link">
                 <div class="logo-wrap">
                     <img class="logo-img logo-light" src="{{ asset('backend/images/logo.png') }}" srcset="{{ asset('backend/images/logo2x.png 2x') }}" alt="">
                     <img class="logo-img logo-dark" src="{{ asset('backend/images/logo-dark.png') }}" srcset="{{ asset('backend/images/logo-dark2x.png 2x') }}" alt="">
@@ -130,7 +130,7 @@
                     $id = Auth::user()->id;
                     $profileData = App\Models\User::find($id);
                 @endphp
-                <a class="d-flex px-3 py-2 bg-primary bg-opacity-10 rounded-bottom-3" href="profile.html">
+                <a class="d-flex px-3 py-2 bg-primary bg-opacity-10 rounded-bottom-3" href="{{route('admin.profile')}}">
                     <div class="media-group">
                         <div class="media media-sm media-middle media-circle text-bg-primary">
                             <img src="{{ (!empty($profileData->photo)) ? url('upload/admin_images/'.$profileData->photo) : url('upload/no_image.jpg') }}" />
