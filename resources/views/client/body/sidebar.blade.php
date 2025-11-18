@@ -54,8 +54,8 @@
 
 
                     <li class="nk-menu-item">
-                        <a href="{{ route('admin.template') }}" class="nk-menu-link">
-                    <span class="nk-menu-icon">
+                        <a href="{{ route('user.template') }}" class="nk-menu-link">
+                            <span class="nk-menu-icon">
                         <em class="icon ni ni-user"></em>
                     </span>
                             <span class="nk-menu-text">Template</span>

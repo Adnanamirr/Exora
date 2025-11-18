@@ -10,6 +10,10 @@ use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Admin\PlanController;
 use App\Http\Controllers\Backend\Admin\TemplateController;
 
+use App\Http\Controllers\Backend\Client\UserTemplateController;
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -32,6 +36,16 @@ Route::prefix('user')->middleware(['auth', IsUser::class])->group(function () {
         Route::get('/user/change/password',  'UserChangePassword')->name('user.change.password');
         Route::post('/user/password/update', 'UserPasswordUpdate')->name('user.password.update');
 
+
+
+
+    });
+
+
+    Route::controller(UserTemplateController::class)->group(function(){
+        Route::get('/user/template', 'UserTemplate')->name('user.template');
+        Route::get('/user/template/details/{id}', 'UserDetailsTemplate')->name('user.details.template');
+        Route::post('/user/content/generate/{id}', 'UserContentGenerate')->name('user.content.generate');
 
 
 
