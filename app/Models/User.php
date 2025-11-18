@@ -35,6 +35,11 @@ class User extends Authenticatable
 
     }
 
+    public function billingHistories(){
+        return $this->hasMany(BillingHistory::class);
+    }
+
+
     /**
      * Get the attributes that should be cast.
      *

@@ -9,6 +9,8 @@ use App\Http\Middleware\IsUser;
 use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Admin\PlanController;
 use App\Http\Controllers\Backend\Admin\TemplateController;
+use App\Http\Controllers\Backend\Client\CheckoutController;
+
 
 use App\Http\Controllers\Backend\Client\UserTemplateController;
 
@@ -52,8 +54,13 @@ Route::prefix('user')->middleware(['auth', IsUser::class])->group(function () {
         Route::get('/delete/user/document/{id}', 'DeleteUserDocument')->name('delete.user.document');
 
 
+    });
 
 
+    Route::controller(CheckoutController::class)->group(function(){
+        Route::get('/user/checkout', 'UserCheckout')->name('user.checkout');
+        Route::post('/user/process/checkout', 'UserProcessCheckout')->name('user.process.checkout');
+        Route::get('/payment/success', 'PaymentSuccess')->name('payment.success');
 
 
     });
