@@ -231,7 +231,7 @@
 
             let html = `<h2>${title}</h2>`;
 
-            const contentLines = lines.slice(3);
+            const contentLines = lines.slice();
             for (let i = 0; i < contentLines.length; i++) {
                 html += `<p>${contentLines[i]}</p>`;
                 if ((i + 1) % 3 === 0 && i + 1 < contentLines.length) {

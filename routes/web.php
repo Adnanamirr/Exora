@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\DocumentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -66,6 +67,19 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 
 
     });
+
+
+    Route::controller(DocumentController::class)->group(function(){
+        Route::get('/admin/document', 'AdminDocument')->name('admin.document');
+        Route::get('/edit/admin/document/{id}', 'EditAdminDocument')->name('edit.admin.document');
+        Route::put('/admin/update/document/{id}', 'AdminUpdateDocument')->name('admin.update.document');
+        Route::get('/delete/admin/document/{id}', 'DeleteAdminDocument')->name('delete.admin.document');
+
+
+
+
+    });
+
 
 
 
