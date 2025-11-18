@@ -21,7 +21,7 @@ class UserTemplateController extends Controller
         $templates = Template::latest()->take($templateLimit)->get();
         return view('client.backend.template.all_template',compact('user','templates'));
     }
-    // End Method
+
 
     public function UserDetailsTemplate($id){
         $template = Template::with('inputFields')->findOrFail($id);
@@ -123,4 +123,48 @@ class UserTemplateController extends Controller
         }
 
     }
+
+    public function UserDocument(){
+        $id = Auth::user()->id;
+        $document = GeneratedContent::where('user_id',$id)->orderBy('id','desc')->get();
+        return view('client.backend.document.all_document',compact('document'));
+    }
+
+    public function EditUserDocument($id){
+        $document = GeneratedContent::findOrFail($id);
+        return view('client.backend.document.edit_document',compact('document'));
+    }
+    /// End Method
+
+    public function UserUpdateDocument(Request $request, $id){
+        $document = GeneratedContent::findOrFail($id);
+
+        $validateData = $request->validate([
+            'output' => 'required|string',
+        ]);
+
+        $document->update([
+            'output' => $validateData['output'],
+        ]);
+
+        $notification = array(
+            'message' => 'Document Updated Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('user.document')->with($notification);
+    }
+
+    public function DeleteUserDocument($id){
+
+        GeneratedContent::find($id)->delete();
+        $notification = array(
+            'message' => 'Document Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    // End Method
 }
