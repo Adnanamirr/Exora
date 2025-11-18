@@ -42,7 +42,7 @@
                                 </a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="{{ route('admin.change.password') }}" class="nk-menu-link">
+                                <a href="{{ route('user.change.password') }}" class="nk-menu-link">
                                     <span class="nk-menu-text">Change Password</span>
                                 </a>
                             </li>
@@ -50,26 +50,6 @@
                     </li>
 
 
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                    <span class="nk-menu-icon">
-                        <em class="icon ni ni-folder-list"></em>
-                    </span>
-                            <span class="nk-menu-text">Plans</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="{{ route('all.plans') }}" class="nk-menu-link">
-                                    <span class="nk-menu-text">All Plans</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="{{ route('add.plans') }}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Add Plans</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
 
 
 
@@ -148,7 +128,7 @@
                         </a>
                     </div>
                     <div class="progress progress-md">
-                        <div class="progress-bar" data-progress="{{ $percentageUsed, 2}}%"  ></div>
+                        <div class="progress-bar" data-progress="{{ $percentageUsed, 2}}%" style="width: {{ round($percentageUsed, 2) }}%" ></div>
                     </div>
                     <h6 class="lead-text mt-2">{{ $wordsLeft }} <span class="text-light">words left</span></h6>
                 </div>

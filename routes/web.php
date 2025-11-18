@@ -29,6 +29,9 @@ Route::prefix('user')->middleware(['auth', IsUser::class])->group(function () {
         Route::get('/user/profile', 'UserProfile')->name('user.profile');
         Route::post('/user/profile/store',  'UserProfileStore')->name('user.profile.store');
 
+        Route::get('/user/change/password',  'UserChangePassword')->name('user.change.password');
+        Route::post('/user/password/update', 'UserPasswordUpdate')->name('user.password.update');
+
 
 
 
