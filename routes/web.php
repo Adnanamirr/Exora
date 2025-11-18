@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin\DocumentController;
+use App\Http\Controllers\Backend\Client\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -15,14 +16,26 @@ Route::get('/', function () {
 
 
 /// User Routes
-Route::middleware(['auth', IsUser::class])->group(function () {
+Route::prefix('user')->middleware(['auth', IsUser::class])->group(function () {
 
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('client.index');
+
     })->name('dashboard');
 
+    Route::controller(UserController::class)->group(function(){
+
+       Route::get('/user/logout',  'UserLogout')->name('user.logout');
+        Route::get('/user/profile', 'UserProfile')->name('user.profile');
+        Route::post('/user/profile/store',  'UserProfileStore')->name('user.profile.store');
+
+
+
+
+    });
+
 });
-/// Eend User Routes
+/// End User Routes
 
 
 /// Admin Routes
@@ -32,13 +45,17 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         return view('admin.index');
     })->name('admin.dashboard');
 
+    Route::controller(AdminController::class)->group(function(){
 
-    Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
-    Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
-    Route::post('/admin/profile/store', [AdminController::class, 'AdminProfileStore'])->name('admin.profile.store');
 
-    Route::get('/admin/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
-    Route::post('/admin/password/update', [AdminController::class, 'AdminPasswordUpdate'])->name('admin.password.update');
+        Route::get('/admin/logout',  'AdminLogout')->name('admin.logout');
+        Route::get('/admin/profile',  'AdminProfile')->name('admin.profile');
+        Route::post('/admin/profile/store','AdminProfileStore')->name('admin.profile.store');
+
+        Route::get('/admin/change/password',  'AdminChangePassword')->name('admin.change.password');
+        Route::post('/admin/password/update', 'AdminPasswordUpdate')->name('admin.password.update');
+
+    });
 
 
 
