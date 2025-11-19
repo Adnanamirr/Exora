@@ -10,6 +10,8 @@ use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Admin\PlanController;
 use App\Http\Controllers\Backend\Admin\TemplateController;
 use App\Http\Controllers\Backend\Client\CheckoutController;
+use App\Http\Controllers\Backend\Admin\ChatController;
+
 
 
 use App\Http\Controllers\Backend\Client\UserTemplateController;
@@ -17,7 +19,7 @@ use App\Http\Controllers\Backend\Client\UserTemplateController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home.index');
 });
 
 
@@ -129,6 +131,15 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::put('/admin/update/document/{id}', 'AdminUpdateDocument')->name('admin.update.document');
         Route::get('/delete/admin/document/{id}', 'DeleteAdminDocument')->name('delete.admin.document');
 
+
+
+
+    });
+
+    Route::controller(ChatController::class)->group(function(){
+        Route::get('/all/assistants', 'AllAssistants')->name('all.assistants');
+        Route::get('/add/assistants', 'AddAssistants')->name('add.assistants');
+        Route::post('/chat-assistants/store', 'StoreAssistants')->name('chat-assistants.store');
 
 
 
