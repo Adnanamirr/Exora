@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\BillingHistory;
 
 class AdminController extends Controller
 {
@@ -104,6 +105,26 @@ class AdminController extends Controller
         );
 
         return redirect()->route('login')->with($notification);
+    }
+
+    public function AllOrders(){
+        $allData = BillingHistory::orderBy('id','desc')->get();
+        return view('admin.backend.order.all_order',compact('allData'));
+    }
+
+    public function UpdateOrderStatus($id){
+        $billing = BillingHistory::findOrFail($id);
+
+        $billing->status = 'Paid';
+        $billing->save();
+
+        $notification = array(
+            'message' => 'Status Updated Successfully',
+            'alert-type' => 'Success'
+        );
+
+        return redirect()->back()->with($notification);
+
     }
     //End Method
 

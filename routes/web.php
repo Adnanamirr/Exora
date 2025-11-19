@@ -86,6 +86,10 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 
         Route::get('/admin/change/password',  'AdminChangePassword')->name('admin.change.password');
         Route::post('/admin/password/update', 'AdminPasswordUpdate')->name('admin.password.update');
+        Route::get('/all/orders', 'AllOrders')->name('all.orders');
+        Route::get('/update/order/status/{id}', 'UpdateOrderStatus')->name('update.order.status');
+
+
 
     });
 
