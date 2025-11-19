@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\BillingHistory;
 use App\Models\Plan;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CheckoutController extends Controller
 {
@@ -53,6 +54,16 @@ class CheckoutController extends Controller
 
     public function PaymentSuccess(){
         return view('client.backend.checkout.payment_success');
+    }
+
+
+    public function InvoiceGenerate($id)
+    {
+        $billing = BillingHistory::with('user', 'plan')->findOrFail($id);
+        $pdf = PDF::loadView('client.backend.checkout.invoice', compact('billing'));
+        return $pdf->download('invoice-'.$billing->id . '.pdf');
+
+
     }
     // End Method
 

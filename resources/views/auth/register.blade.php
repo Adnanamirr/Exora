@@ -6,7 +6,7 @@
     <meta name="author" content="Softnio">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{asset('backend/images/favicon.png')}}">
-    <title>Sign Up - CopyGen - AI Writer &amp; Copywriting Landing Page HTML Template.</title>
+    <title>Sign Up - Exora - AI Writer &amp; Copywriting Landing Page HTML Template.</title>
     <link rel="stylesheet" href="{{asset('backend/assets/css/style.css?v1.0.0')}}">
 </head>
 
