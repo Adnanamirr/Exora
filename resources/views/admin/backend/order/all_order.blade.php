@@ -76,8 +76,12 @@
                             <td class="tb-col tb-col-sm">
                                 @if ($item->status === 'Pending')
                                     <a href="{{ route('update.order.status',$item->id) }}" class="btn btn-success btn-sm">Update</a>
+                                    <form action="{{ route('cancel.order', $item->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancel Order</button>
+                                    </form>
                                 @else
-                                    <a href="#" class="btn btn-success btn-sm">Change</a>
+                                    <span class="badge text-bg-secondary-soft px-2 py-1 fs-6 lh-sm">No Action Needed</span>
                                 @endif
 
 

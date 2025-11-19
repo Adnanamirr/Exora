@@ -88,6 +88,7 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::post('/admin/password/update', 'AdminPasswordUpdate')->name('admin.password.update');
         Route::get('/all/orders', 'AllOrders')->name('all.orders');
         Route::get('/update/order/status/{id}', 'UpdateOrderStatus')->name('update.order.status');
+        Route::post('/cancel/order/{id}', 'CancelOrder')->name('cancel.order');
 
 
 

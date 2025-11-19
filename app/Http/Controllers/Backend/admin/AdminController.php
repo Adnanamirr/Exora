@@ -126,6 +126,21 @@ class AdminController extends Controller
         return redirect()->back()->with($notification);
 
     }
+
+    public function CancelOrder($id)
+    {
+        $billing = BillingHistory::findOrFail($id);
+        $billing->status = 'failed';
+        $billing->save();
+
+        $notification = array(
+            'message' => 'Order Cancelled Successfully',
+            'alert-type' => 'Success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
     //End Method
 
 
