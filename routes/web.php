@@ -140,6 +140,10 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::get('/all/assistants', 'AllAssistants')->name('all.assistants');
         Route::get('/add/assistants', 'AddAssistants')->name('add.assistants');
         Route::post('/chat-assistants/store', 'StoreAssistants')->name('chat-assistants.store');
+        Route::get('/chat-assistants/chat/{assistantId}', 'ChatAssistants')->name('chat-assistants.chat');
+        Route::post('/chat-assistants/send/{assistantId}', 'ChatSendMessage')->name('chat-assistants.send');
+        Route::get('/chat-assistants/new/{assistantId}', 'StartNewConversation')->name('chat-assistants.new');
+        Route::get('/chat-assistants/{assistantId}/conversation/{conversationId}', 'SelecteConversation')->name('chat-assistants.select');
 
 
 

@@ -66,4 +66,134 @@ class ChatController extends Controller
             unlink($fullPath);
         }
     }
+
+    public function ChatAssistants($assistantId){
+
+        $assistant = ChatAssistant::findOrFail($assistantId);
+
+        $conversations = ChatConversation::where('chat_conversations.assistant_id',$assistantId)
+            ->where('chat_conversations.user_id', Auth::id())
+            ->select('latest.conversation_id', 'latest.id','latest.created_at','latest.message')
+            ->join('chat_conversations as latest', function($join) {
+                $join->on('latest.conversation_id', '=' , 'chat_conversations.conversation_id')
+                    ->whereColumn('latest.id', '=', \DB::raw('(SELECT MAX(id) FROM chat_conversations as sub WHERE sub.conversation_id = chat_conversations.conversation_id)'));
+            })
+            ->groupBy('latest.conversation_id','latest.id','latest.created_at','latest.message')
+            ->orderBy('latest.created_at', 'desc')
+            ->get()
+            ->map(function($conv){
+                $conv->messages_count = ChatConversation::where('conversation_id', $conv->conversation_id ?? $conv->id)->count();
+                return $conv;
+            });
+        $selectedConversation = $conversations->first();
+
+        if ($selectedConversation) {
+            $messages = ChatConversation::where('assistant_id',$assistantId)
+                ->where('user_id', Auth::id())
+                ->where('conversation_id',$selectedConversation->conversation_id ?? $selectedConversation->id)
+                ->orderBy('created_at','asc')
+                ->get();
+        }else {
+            $messages = collect();
+        }
+
+        return view('admin.backend.assistant.chat_assistant',compact('assistant','conversations','messages','selectedConversation'));
+    }
+
+    public function ChatSendMessage(Request $request,$assistantId){
+
+        $request->validate(['message' => 'required|string' ]);
+        $assistant = ChatAssistant::findOrFail($assistantId);
+        $userMessage = $request->message;
+
+        /// Determine the latest conversation_id or start new one.
+        $latestConversation = ChatConversation::where('assistant_id',$assistantId)
+            ->where('user_id',Auth::id())
+            ->latest('created_at')
+            ->first();
+
+        $conversationId = $latestConversation ? $latestConversation->conversation_id ?? $latestConversation->id : null;
+
+        /// API Call to generate Response From here
+        $response = OpenAI::chat()->create([
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
+                ['role' => 'system', 'content' => $assistant->instructions],
+                ['role' => 'user', 'content' => $userMessage ],
+            ],
+        ]);
+
+        $aiResponse = $response->choices[0]->message->content;
+
+        $conversation = ChatConversation::create([
+            'assistant_id' => $assistantId,
+            'user_id' => Auth::id(),
+            'message' => $userMessage,
+            'response' => $aiResponse,
+            'conversation_id' => $conversationId ?? null,
+        ]);
+
+        if (!$conversationId) {
+            $conversation->update(['conversation_id' =>  $conversation->id]);
+        }
+        return redirect()->route('chat-assistants.chat',['assistantId' => $assistantId]);
+    }
+
+
+    public function StartNewConversation($assistantId){
+
+        $assistant = ChatAssistant::findOrFail($assistantId);
+
+        $newConversation = ChatConversation::create([
+            'assistant_id' => $assistantId,
+            'user_id' => Auth::id(),
+            'message' => 'New Conversation Started',
+            'response' => $assistant->welcome_message,
+            'conversation_id' => null,
+        ]);
+
+        $newConversation->update(['conversation_id' => $newConversation->id]);
+
+        return redirect()->route('chat-assistants.chat',['assistantId' => $assistantId]);
+
+    }
+
+    public function SelecteConversation($assistantId, $conversationId){
+
+        $assistant = ChatAssistant::findOrFail($assistantId);
+
+        $conversations = ChatConversation::where('chat_conversations.assistant_id',$assistantId)
+            ->where('chat_conversations.user_id', Auth::id())
+            ->select('latest.conversation_id', 'latest.id','latest.created_at','latest.message')
+            ->join('chat_conversations as latest', function($join) {
+                $join->on('latest.conversation_id', '=' , 'chat_conversations.conversation_id')
+                    ->whereColumn('latest.id', '=', \DB::raw('(SELECT MAX(id) FROM chat_conversations as sub WHERE sub.conversation_id = chat_conversations.conversation_id)'));
+            })
+            ->groupBy('latest.conversation_id','latest.id','latest.created_at','latest.message')
+            ->orderBy('latest.created_at', 'desc')
+            ->get()
+            ->map(function($conv){
+                $conv->messages_count = ChatConversation::where('conversation_id', $conv->conversation_id ?? $conv->id)->count();
+                return $conv;
+            });
+
+        $selectedConversation = ChatConversation::where('conversation_id',$conversationId)
+            ->where('assistant_id',$assistantId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $messages = ChatConversation::where('assistant_id',$assistantId)
+            ->where('user_id', Auth::id())
+            ->where('conversation_id', $selectedConversation->conversation_id ?? $selectedConversation->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return view('admin.backend.assistant.chat_assistant',compact('assistant','conversations','messages','selectedConversation'));
+    }
+    //End Method
+
+
+
+
+
 }
