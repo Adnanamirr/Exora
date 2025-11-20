@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Http\Controllers\Frontend;
+
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use App\Models\Slider;
+
+class HomeController extends Controller
+{
+    public function HomeSlider(){
+        $slider = Slider::find(2);
+        return view('admin.backend.slider.get_slider',compact('slider'));
+    }
+
+
+    public function UpdateSlider(Request $request){
+
+        $slider_id = $request->id;
+        $slider = Slider::find($slider_id);
+
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $manager = new ImageManager(new Driver());
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $img = $manager->read($image);
+            $img->resize(1696,729)->save(public_path('upload/slider/'.$name_gen));
+            $save_url = 'upload/slider/'.$name_gen;
+
+            if (file_exists(public_path($slider->image))) {
+                @unlink(public_path($slider->image));
+            }
+
+            Slider::find($slider_id)->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'link' => $request->link,
+                'image' => $save_url,
+            ]);
+
+            $notification = array(
+                'message' => 'Slider Updated Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+
+        } else {
+
+            Slider::find($slider_id)->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'link' => $request->link,
+            ]);
+
+            $notification = array(
+                'message' => 'Slider Updated Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+
+        }
+
+    }
+    //End Method
+
+
+
+
+
+
+}

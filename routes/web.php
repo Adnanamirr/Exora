@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\Admin\PlanController;
 use App\Http\Controllers\Backend\Admin\TemplateController;
 use App\Http\Controllers\Backend\Client\CheckoutController;
 use App\Http\Controllers\Backend\Admin\ChatController;
+use App\Http\Controllers\Frontend\HomeController;
 
 
 
@@ -146,6 +147,12 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::get('/chat-assistants/{assistantId}/conversation/{conversationId}', 'SelecteConversation')->name('chat-assistants.select');
 
 
+
+    });
+
+    Route::controller(HomeController::class)->group(function(){
+        Route::get('/home/slider', 'HomeSlider')->name('home.slider');
+        Route::post('/update/slider', 'UpdateSlider')->name('update.slider');
 
     });
 
