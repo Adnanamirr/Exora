@@ -212,6 +212,10 @@ class HomeController extends Controller
         return view('home.page.features');
     }
 
+    public function Pricing(){
+        return view('home.page.pricing');
+    }
+
 
 
 
