@@ -1,6 +1,4 @@
-<header class="nk-header has-mask">
-    <div class="nk-mask bg-gradient-a"></div>
-    <div class="nk-mask bg-pattern-dot bg-blend-top"></div>
+<header class="nk-header">
     <div class="nk-header-main nk-menu-main will-shrink is-transparent ignore-mask">
         <div class="container">
             <div class="nk-header-wrap">
@@ -74,9 +72,8 @@
             </div><!-- .nk-header-wrap -->
         </div><!-- .container -->
     </div><!-- .nk-header-main -->
-    @include('home.layout.slider')
-
 </header><!-- .nk-header -->
+
 
 <script type="text/javascript">
 

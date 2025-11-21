@@ -204,6 +204,13 @@ class HomeController extends Controller
         return redirect()->back()->with($notification);
 
     }
+    public function UseCase(){
+        return view('home.page.use_case');
+    }
+
+    public function Features(){
+        return view('home.page.features');
+    }
 
 
 

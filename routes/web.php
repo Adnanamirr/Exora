@@ -158,7 +158,7 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 
     Route::controller(HomeController::class)->group(function(){
         Route::get('/all/heading', 'AllHeading')->name('all.heading');
-        Route::get('/add/heading', 'AddHeading')->name('add.heading');
+         Route::get('/add/heading', 'AddHeading')->name('add.heading');
         Route::post('/store/heading', 'StoreHeading')->name('store.heading');
 
 
@@ -194,6 +194,13 @@ Route::controller(HomeController::class)->group(function(){
 
 
 });
+
+///////////// HOME FRONTEND //////////
+
+Route::controller(HomeController::class)->group(function(){
+    Route::get('/usecase', 'UseCase')->name('usecase');
+    Route::get('/features', 'Features')->name('features'); });
+
 
 
 Route::middleware('auth')->group(function () {
