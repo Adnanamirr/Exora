@@ -156,7 +156,23 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 
     });
 
+    Route::controller(HomeController::class)->group(function(){
+        Route::get('/all/heading', 'AllHeading')->name('all.heading');
+        Route::get('/add/heading', 'AddHeading')->name('add.heading');
+        Route::post('/store/heading', 'StoreHeading')->name('store.heading');
 
+
+    });
+
+    Route::controller(HomeController::class)->group(function(){
+        Route::get('/all/questions', 'AllQuestions')->name('all.questions');
+        Route::get('/add/questions', 'AddQuestions')->name('add.questions');
+        Route::post('/store/questions', 'StoreQuestions')->name('store.questions');
+        Route::get('/edit/questions/{id}', 'EditQuestions')->name('edit.questions');
+        Route::post('/update/questions', 'UpdateQuestions')->name('update.questions');
+        Route::get('/delete/questions/{id}', 'DeleteQuestions')->name('delete.questions');
+
+    });
 
 
 
@@ -167,8 +183,17 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 /////////// Assess for All ///////////////////
 
 
-Route::post('/update-slider/{id}', [HomeController::class, 'UpdateSliders']);
-Route::post('/update-slider-image/{id}', [HomeController::class, 'UpdateSliderImage']);
+
+
+
+
+Route::controller(HomeController::class)->group(function(){
+    Route::post('/update-started/{id}', 'UpdateStarted');
+    Route::post('/update-slider/{id}',  'UpdateSliders');
+    Route::post('/update-slider-image/{id}','UpdateSliderImage');
+
+
+});
 
 
 Route::middleware('auth')->group(function () {

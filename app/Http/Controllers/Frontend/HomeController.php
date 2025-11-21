@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Hash;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\Slider;
+use App\Models\Heading;
+use App\Models\Questions;
+
+
 
 class HomeController extends Controller
 {
@@ -104,8 +108,102 @@ class HomeController extends Controller
 
         return response()->json(['success' =>  false, 'message' => 'Image upload Failed'],400);
     }
+
+    public function AllHeading(){
+        $heading = Heading::latest()->get();
+        return view('admin.backend.heading.all_heading',compact('heading'));
+    }
+
+
+    public function AddHeading(){
+
+        return view('admin.backend.heading.add_heading');
+    }
     //End Method
 
+    public function StoreHeading(Request $request){
+        Heading::create([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        $notification = array(
+            'message' => 'Heading Inserted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('all.heading')->with($notification);
+
+    }
+
+    public function UpdateStarted(Request $request, $id){
+        $heading = Heading::findOrFail($id);
+        $heading->update($request->only(['title','description']));
+        return response()->json(['success' => true, 'message' => 'Updated Successfully']);
+    }
+
+
+    //End Method
+
+    public function AllQuestions(){
+        $question = Questions::latest()->get();
+        return view('admin.backend.question.all_question',compact('question'));
+    }
+    //End Method
+
+    public function AddQuestions(){
+
+        return view('admin.backend.question.add_question');
+    }
+    //End Method
+
+    public function StoreQuestions(Request $request){
+        Questions::create([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        $notification = array(
+            'message' => 'Questions Inserted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('all.questions')->with($notification);
+
+    }
+    public function EditQuestions($id){
+        $question = Questions::find($id);
+        return view('admin.backend.question.edit_question',compact('question'));
+    }
+    //End Method
+
+    public function UpdateQuestions(Request $request){
+
+        $que_id = $request->id;
+
+        Questions::find($que_id)->update([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        $notification = array(
+            'message' => 'Questions Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('all.questions')->with($notification);
+
+    }
+    //End Method
+
+    public function DeleteQuestions($id){
+
+        Questions::find($id)->delete();
+
+        $notification = array(
+            'message' => 'Questions Deleted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+
+    }
 
 
 
