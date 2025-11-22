@@ -18,7 +18,7 @@
                     $user = User::with('plan')->find($id);
                     $totalDocument = GeneratedContent::where('user_id', $id)->count();
                     $userPlan = $user->plan;
-
+                    $templates = Template::all();
                     $totalTemplate = Template::count();
 
                     $wordsUsed = $user->words_used ?? 0;
