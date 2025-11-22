@@ -56,7 +56,6 @@
         <div class="section-actions text-center">
             <ul class="btn-list btn-list-inline gx-gs gy-3">
                 <li><a href="#" class="btn btn-primary btn-lg"><span>Start free trial today</span></a></li>
-                <li><a href="#" class="btn btn-primary btn-soft btn-lg"><em class="icon ni ni-play"></em><span>See action in video</span></a></li>
             </ul>
         </div><!-- .section-actions -->
         <div class="section-content">

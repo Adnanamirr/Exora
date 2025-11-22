@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Admin\DocumentController;
 use App\Http\Controllers\Backend\Client\UserController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -193,6 +194,7 @@ Route::controller(HomeController::class)->group(function(){
     Route::post('/update-slider-image/{id}','UpdateSliderImage');
 
 
+
 });
 
 ///////////// HOME FRONTEND //////////
@@ -201,9 +203,15 @@ Route::controller(HomeController::class)->group(function(){
     Route::get('/usecase', 'UseCase')->name('usecase');
     Route::get('/features', 'Features')->name('features');
     Route::get('/pricing', 'Pricing')->name('pricing');
+    Route::get('/contact', 'Contact')->name('contact');
 
 
 });
+
+Route::controller(ContactController::class)->group(function(){
+    Route::post('/contact/form', 'ContactForm')->name('contact.form');
+});
+
 
 
 

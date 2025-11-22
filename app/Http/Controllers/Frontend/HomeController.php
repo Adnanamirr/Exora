@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Support;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -215,6 +216,12 @@ class HomeController extends Controller
     public function Pricing(){
         return view('home.page.pricing');
     }
+
+    public function Contact(){
+        return view('home.page.contact');
+    }
+
+
 
 
 
