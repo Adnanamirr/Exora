@@ -7,7 +7,7 @@
     </div>
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
-            <a href="index.html" class="logo-link">
+            <a href="{{route('home')}}" class="logo-link">
                 <div class="logo-wrap">
                     <img class="logo-img logo-light" src="{{ asset('backend/images/logo.png') }}" srcset="{{ asset('backend/images/logo2x.png 2x') }}" alt="">
                     <img class="logo-img logo-dark" src="{{ asset('backend/images/logo-dark.png') }}" srcset="{{ asset('backend/images/logo-dark2x.png 2x') }}" alt="">
@@ -21,7 +21,7 @@
             <div class="nk-sidebar-menu">
                 <ul class="nk-menu">
                     <li class="nk-menu-item">
-                        <a href="index.html" class="nk-menu-link">
+                        <a href="{{route('dashboard')}}" class="nk-menu-link">
                     <span class="nk-menu-icon">
                         <em class="icon ni ni-dashboard-fill"></em>
                     </span>

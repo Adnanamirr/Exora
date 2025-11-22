@@ -39,6 +39,7 @@
                                         <select name="language" class="form-select" id="language" >
                                             <option value="English (USA)">English (USA)</option>
                                             <option value="Bangla (Bangladesh)">Bangla (Bangladesh)</option>
+                                            <option value="Urdu (Pakistan)">Urdu (Pakistan)</option>
                                             <option value="Hindi (India)">Hindi (India)</option>
                                             <option value="French (France)">French (France)</option>
                                             <option value="Turkish (Turkey)">Turkish (Turkey)</option>

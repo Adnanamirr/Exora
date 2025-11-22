@@ -35,7 +35,6 @@
         </div>
         <div class="d-flex flex-wrap align-items-center mt-2">
             <div class="caption-text">{{ $wordsUsed }} <span class="text-light">of {{ $wordLimit }} words used.</span></div>
-            <div class="sub-text text-dark">To increase your limit, check our <a href="#">Pricing &amp; Plans</a>.</div>
         </div>
     </div>
     <div class="d-flex align-items-center justify-content-between border-bottom border-light mt-5 pb-1">

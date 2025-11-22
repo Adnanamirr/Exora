@@ -5,7 +5,7 @@
         <div class="container">
             <div class="nk-header-wrap">
                 <div class="nk-header-logo">
-                    <a href="index.html" class="logo-link">
+                    <a href="{{ url('/') }}" class="logo-link">
                         <div class="logo-wrap">
                             <img class="logo-img logo-light" src="{{ asset('frontend/images/logo.png') }}" srcset="{{ asset('frontend/images/logo2x.png 2x') }}" alt="">
                             <img class="logo-img logo-dark" src="{{ asset('frontend/images/logo-dark.png') }}" srcset="{{ asset('frontend/images/logo-dark2x.png 2x') }}" alt="">
@@ -59,8 +59,22 @@
                         </button>
                     </div>
                     <ul class="nk-menu-buttons flex-lg-row-reverse">
-                        <li><a href="#" class="btn btn-primary">Start Writing</a></li>
-                        <li>
+                        <li class="d-flex gap-2">
+                            @if (auth()->check())
+                                <div class="d-flex gap-2">
+                                <a href="{{ auth()->user()->role === 'admin' ? route('admin.template') : route('pricing') }}"
+                                   class="btn btn-primary">Start Writing</a>
+
+                                <form method="POST" action="{{ route('logout') }}" class="d-inline ">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">Logout</button>
+                                </form>
+                                </div>
+
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-primary">Start Writing</a>
+                            @endif
+                        </li>                        <li>
                             @if (auth()->check())
                                 <a target="/blank" class="link link-dark" href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}">
                                     {{ auth()->user()->name }} Dashboard

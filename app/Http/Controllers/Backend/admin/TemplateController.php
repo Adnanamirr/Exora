@@ -148,7 +148,7 @@ class TemplateController extends Controller
 
         /// Validate request
         $validateData = $request->validate([
-            'language' => 'required|string|in:English (USA),Bangla (Bangladesh),Hindi (India),French (France),Turkish (Turkey)',
+            'language' => 'required|string|in:English (USA),Bangla (Bangladesh),Urdu (Pakistan),Hindi (India),French (France),Turkish (Turkey)',
             'ai_model' => 'required|string|in:gpt-4,gpt-3.5-turbo',
             'result_length' => 'required|integer|min:50|max:1000',
         ]);

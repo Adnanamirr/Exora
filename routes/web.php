@@ -22,7 +22,7 @@ use App\Http\Controllers\Backend\Client\UserTemplateController;
 
 Route::get('/', function () {
     return view('home.index');
-});
+})->name('home');
 
 
 /// User Routes
