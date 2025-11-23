@@ -56,11 +56,10 @@
                         <div class="card border-0 shadow-sm rounded-4">
                             <div class="card-body">
                                 <h3 class="title fw-medium mb-4">Please feel free to contact us using form below</h3>
-                                <form action="{{ route('contact.form') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('store.contact') }}"  method="post" >
                                     @csrf
-                                    <div class="row g-4">
 
-                                        <!-- Name -->
+                                    <div class="row g-4">
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
@@ -68,8 +67,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Email -->
+                                        <!-- .col -->
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
@@ -77,8 +75,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Subject -->
+                                        <!-- .col -->
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
@@ -86,8 +83,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Message -->
+                                        <!-- .col -->
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
@@ -95,18 +91,16 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Submit -->
+                                        <!-- .col -->
                                         <div class="col-12">
-                                            <div class="col-lg-12 col-xl-12">
-                                                <button type="submit" class="btn btn-secondary">Send Message</button>
+                                            <div class="form-group">
+                                                <button class="btn btn-primary" type="submit" >Send Message</button>
                                             </div>
                                             <div class="form-result mt-4"></div>
                                         </div>
-
                                     </div>
+                                    <!-- .row -->
                                 </form>
-
                             </div>
                         </div>
                     </div>

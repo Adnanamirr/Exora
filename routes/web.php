@@ -173,6 +173,11 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::post('/update/questions', 'UpdateQuestions')->name('update.questions');
         Route::get('/delete/questions/{id}', 'DeleteQuestions')->name('delete.questions');
 
+
+
+        Route::get('/contact/message', 'ContactMessage')->name('contact.message');
+        Route::get('/delete/contact/message/{id}', 'DeleteContactMessage')->name('delete.contact.message');
+
     });
 
 
@@ -205,12 +210,11 @@ Route::controller(HomeController::class)->group(function(){
     Route::get('/pricing', 'Pricing')->name('pricing');
     Route::get('/contact', 'Contact')->name('contact');
 
+    Route::post('/store/contact', 'StoreContact')->name('store.contact');
+
 
 });
 
-Route::controller(ContactController::class)->group(function(){
-    Route::post('/contact/form', 'ContactForm')->name('contact.form');
-});
 
 
 
