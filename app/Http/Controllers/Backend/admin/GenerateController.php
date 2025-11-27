@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\GeneratedAudio;
 use App\Models\GeneratedImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -89,6 +90,75 @@ class GenerateController extends Controller
         $genimage = GeneratedImage::where('user_id',$id)->orderBy('id','desc')->get();
         return view('client.backend.generate.all_image',compact('genimage'));
     }
+
+
     // End Method
+
+    public function GenerateAudio(){
+        return view('admin.backend.generate.generate_audio');
+    }
+
+    public function GenerateAndSaveAudio(Request $request){
+
+        $request->validate([
+            'text' => 'required|string',
+        ]);
+
+        $text = $request->input('text');
+
+        /// Step 1: Generate audio using OpenAI
+        $response = OpenAI::audio()->speech([
+            'model' => 'tts-1',
+            'input' => $text,
+            'voice' => 'nova',
+            'response_format' => 'mp3',
+        ]);
+
+        // Step 2: Download the audio
+
+        $fileName = 'tts_' . time() . '_' . Str::random(5) . '.mp3';
+        $savePath = public_path('upload/audio/');
+
+        /// Step 3: Ensure the directory exists
+        if (!File::exists($savePath)) {
+            File::makeDirectory($savePath, 0755, true);
+        }
+
+        // Step 4: Save audio to public folder
+        file_put_contents($savePath . $fileName, $response);
+
+        GeneratedAudio::create([
+            'user_id' => Auth::id(),
+            'prompt' => $text,
+            'audio_path' => 'upload/audio/' . $fileName,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'audio_url' => asset('upload/audio/'.$fileName),
+            'message' => 'Audio generated and saved successfully',
+        ]);
+
+    }
+    // End Method
+
+    public function AllGenerateAudio(){
+        // $id = Auth::user()->id;
+        $genaudio = GeneratedAudio::orderBy('id','desc')->get();
+        return view('admin.backend.generate.all_audio',compact('genaudio'));
+    }
+
+    public function UserGenerateAudio(){
+        return view('client.backend.generate.generate_audio');
+    }
+    // End Method
+
+    public function UserAllGenerateAudio(){
+        $id = Auth::user()->id;
+        $genaudio = GeneratedAudio::where('user_id',$id)->orderBy('id','desc')->get();
+        return view('client.backend.generate.all_audio',compact('genaudio'));
+    }
+
+
 
 }

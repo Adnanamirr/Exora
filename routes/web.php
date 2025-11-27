@@ -79,6 +79,14 @@ Route::prefix('user')->middleware(['auth', IsUser::class])->group(function () {
 
 
 });
+
+
+
+    Route::controller(GenerateController::class)->group(function(){
+        Route::get('/user/generate/audio', 'UserGenerateAudio')->name('user.generate.audio');
+        Route::get('/user/all/generate/audio', 'UserAllGenerateAudio')->name('user.all.generate.audio');
+
+});
 /// End User Routes
 
 
@@ -198,6 +206,14 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     });
 
 
+    Route::controller(GenerateController::class)->group(function(){
+        Route::get('/generate/audio', 'GenerateAudio')->name('generate.audio');
+        Route::get('/all/generate/audio', 'AllGenerateAudio')->name('all.generate.audio');
+
+
+
+    });
+
 
 
 });
@@ -222,6 +238,9 @@ Route::controller(HomeController::class)->group(function(){
 
 Route::controller(GenerateController::class)->group(function(){
     Route::post('/generate-save-image', 'GenerateAndSaveImage');
+    Route::post('/generate-audio', 'GenerateAndSaveAudio');
+
+
 });
 
 ///////////// HOME FRONTEND //////////
