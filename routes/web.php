@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin\DocumentController;
+use App\Http\Controllers\Backend\Admin\GenerateController;
 use App\Http\Controllers\Backend\Client\UserController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -69,6 +69,14 @@ Route::prefix('user')->middleware(['auth', IsUser::class])->group(function () {
 
 
     });
+
+
+    Route::controller(GenerateController::class)->group(function(){
+        Route::get('/user/generate/image', 'UserGenerateImage')->name('user.generate.image');
+        Route::get('/user/all/generate/image', 'UserAllGenerateImage')->name('user.all.generate.image');
+
+    });
+
 
 });
 /// End User Routes
@@ -181,6 +189,15 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     });
 
 
+    Route::controller(GenerateController::class)->group(function(){
+        Route::get('/generate/image', 'GenerateImage')->name('generate.image');
+        Route::get('/all/generate/image', 'AllGenerateImage')->name('all.generate.image');
+
+
+
+    });
+
+
 
 
 });
@@ -200,6 +217,11 @@ Route::controller(HomeController::class)->group(function(){
 
 
 
+});
+
+
+Route::controller(GenerateController::class)->group(function(){
+    Route::post('/generate-save-image', 'GenerateAndSaveImage');
 });
 
 ///////////// HOME FRONTEND //////////
