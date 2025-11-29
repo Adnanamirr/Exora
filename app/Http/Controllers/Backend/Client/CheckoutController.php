@@ -17,7 +17,8 @@ class CheckoutController extends Controller
         $userPlan = $user->plan;
         $allPlans = Plan::where('price', '>', 0)->get(); // Exclude free plan
         return view('client.backend.checkout.user_checkout',compact('allPlans','userPlan'));
-    } public function UserProcessCheckout(Request $request){
+    }
+    public function UserProcessCheckout(Request $request){
 
     $request->validate([
         'plan_id' => 'required|exists:plans,id',

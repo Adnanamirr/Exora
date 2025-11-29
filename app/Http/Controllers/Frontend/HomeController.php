@@ -21,7 +21,7 @@ use App\Models\Questions;
 class HomeController extends Controller
 {
     public function HomeSlider(){
-        $slider = Slider::find(2);
+        $slider = Slider::find(1);
         return view('admin.backend.slider.get_slider',compact('slider'));
     }
 

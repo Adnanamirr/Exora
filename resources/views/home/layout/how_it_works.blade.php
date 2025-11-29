@@ -1,7 +1,7 @@
 <section class="section has-mask">
     <div class="nk-mask bg-pattern-dot bg-blend-around mt-10p mb-3"></div>
     @php
-        $heading = App\Models\Heading::find(2);
+        $heading = App\Models\Heading::find(1);
     @endphp
 
 

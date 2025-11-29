@@ -24,6 +24,9 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Prompt Code</h5>
                                         <p class="card-text">{{ $img->prompt }}</p>
+
+                                        <!-- Add download button for each image (matches generate_image blade behavior) -->
+                                        <a href="{{ asset($img->image_path) }}" download class="btn btn-sm btn-success mt-2">Download Image</a>
                                     </div>
                                 </div>
                             </div><!-- .col -->

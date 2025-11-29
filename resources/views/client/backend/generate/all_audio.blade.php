@@ -59,7 +59,8 @@
                                     <audio controls>
                                         <source src="{{ asset($item->audio_path) }}" type="audio/mpeg">
                                     </audio>
-
+                                    <br>
+                                    <a href="{{ asset($item->audio_path) }}" download class="btn btn-sm btn-success mt-2">Download MP3</a>
                                 </div>
                             </td>
 

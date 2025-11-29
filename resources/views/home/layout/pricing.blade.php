@@ -6,7 +6,7 @@
                     <h6 class="overline-title text-primary">Pricing</h6>
 
                     @php
-                        $heading = App\Models\Heading::find(2);
+                        $heading = App\Models\Heading::find(1);
                     @endphp
 
                     <h2 class="title editable-title" contenteditable={{ auth()->check() && auth()->user()->role === 'admin' ? 'true' : 'false'  }} data-id="{{ $heading->id }}" > {{ $heading->title }}</h2>
