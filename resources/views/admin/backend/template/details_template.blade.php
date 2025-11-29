@@ -26,7 +26,7 @@
                         {{-- Left Sidebar  --}}
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p><strong>Your Blanace Is {{ $user->current_word_usage - $user->words_used }} Words Left </strong></p>
+                                <p><strong>Your Balance Is {{ $user->current_word_usage - $user->words_used }} Words Left </strong></p>
                             </div>
 
                             <form id="generateForm" action="{{ route('content.generate',$template->id) }}" method="post" enctype="multipart/form-data">
@@ -37,7 +37,7 @@
                                     <div class="form-control-wrap">
                                         <select name="language" class="form-select" id="language" >
                                             <option value="English (USA)">English (USA)</option>
-                                            <option value="Bangla (Bangladesh)">Bangla (Bangladesh)</option>
+                                            <option value="Bengali (Bangladesh)">Bengali (Bangladesh)</option>
                                             <option value="Urdu (Pakistan)">Urdu (Pakistan)</option>
                                             <option value="Hindi (India)">Hindi (India)</option>
                                             <option value="French (France)">French (France)</option>
@@ -47,15 +47,19 @@
                                 </div>
 
                                 @foreach ($template->inputFields as $field)
+                                    @php
+                                        // Normalize field name: replace spaces with underscores and remove special characters (?, !, etc.)
+                                        $normalizedFieldName = preg_replace('/[^a-zA-Z0-9_]/', '', str_replace(' ', '_', $field->title));
+                                    @endphp
                                     <div class="form-group mt-3">
-                                        <label for="{{ $field->title }}">{{ $field->title }}</label>
+                                        <label for="{{ $normalizedFieldName }}">{{ $field->title }}</label>
 
                                         @if ($field->type === 'text')
-                                            <input type="text" name="{{ str_replace(' ', '_',$field->title) }}" id="{{ $field->title }}" class="form-control" required>
+                                            <input type="text" name="{{ $normalizedFieldName }}" id="{{ $normalizedFieldName }}" class="form-control" placeholder="Enter {{ strtolower($field->title) }}" required>
 
                                         @elseif ($field->type === 'textarea')
 
-                                            <textarea name="{{ str_replace(' ', '_',$field->title) }}" id="{{ $field->title }}"  rows="5" class="form-control" required></textarea>
+                                            <textarea name="{{ $normalizedFieldName }}" id="{{ $normalizedFieldName }}"  rows="5" class="form-control" placeholder="Enter {{ strtolower($field->title) }}" required></textarea>
                                         @endif
                                         <small>{{ $field->description }}</small>
 
@@ -76,7 +80,7 @@
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="result_length" class="form-label">Extimated Result Length </label>
+                                            <label for="result_length" class="form-label">Estimated Result Length </label>
                                             <div class="form-control-wrap">
                                                 <input type="number" name="result_length" class="form-control" id="result_length" value="200" min="50" max="1000" required >
                                             </div>
@@ -126,10 +130,22 @@
                                                     </button>
                                                             <ul class="dropdown-menu">
                                                                 <li>
-                                                                    <a href="" class="dropdown-item" id="copy-text">Copy Text</a>
+                                                                    <a href="#" class="dropdown-item" id="copy-text">
+                                                                        <em class="icon ni ni-copy"></em>
+                                                                        <span>Copy Text</span>
+                                                                    </a>
                                                                  </li>
                                                                 <li>
-                                                                    <a href="" class="dropdown-item" > Text File</a>
+                                                                    <a href="#" class="dropdown-item" id="export-text">
+                                                                        <em class="icon ni ni-file-text"></em>
+                                                                        <span>Export as Text</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#" class="dropdown-item" id="export-html">
+                                                                        <em class="icon ni ni-code"></em>
+                                                                        <span>Export as HTML</span>
+                                                                    </a>
                                                                 </li>
                                                             </ul>
 
@@ -137,7 +153,10 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <button class="btn btn-md btn-primary rounded-pill" type="button"> Save </button>
+                                                <button class="btn btn-md btn-primary rounded-pill" type="button" id="save-content">
+                                                    <em class="icon ni ni-save"></em>
+                                                    <span>Save</span>
+                                                </button>
                                             </li>
                                         </ul>
                                     </div>
@@ -175,6 +194,13 @@
 
             const form = this;
             const formData = new FormData(form);
+            const generateBtn = form.querySelector('button[type="submit"]');
+
+            // Disable button and show loading state
+            if (generateBtn) {
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+            }
 
             fetch(form.action, {
                 method: 'POST',
@@ -190,9 +216,14 @@
                     if (data.success) {
                         const editor = document.getElementById('editor-v1');
                         if (editor) {
-                            const formattedContent = formatContent(data.output, formData);
-                            editor.innerHTML = formattedContent; // Set formatted HTML
+                            // Use the improved formatting function that preserves AI structure
+                            editor.innerHTML = formatContentPreserving(data.output, formData);
                             updateCounts(); // Update word and character count
+
+                            // Show success message with word count
+                            if (typeof toastr !== 'undefined') {
+                                toastr.success(`Content generated successfully! (${data.word_count || 0} words)`);
+                            }
                         } else {
                             console.error('Editor element not found');
                         }
@@ -202,7 +233,14 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while generating content.');
+                    alert('An error occurred while generating content: ' + error.message);
+                })
+                .finally(() => {
+                    // Re-enable button
+                    if (generateBtn) {
+                        generateBtn.disabled = false;
+                        generateBtn.innerHTML = 'Generate';
+                    }
                 });
         });
 
@@ -212,31 +250,96 @@
             if (editor) {
                 const content = editor.textContent || editor.innerText;
                 const words = content.trim() === '' ? 0 : content.trim().split(/\s+/).length;
-                const characters = content.length;
+                const characters = content.trim().length; // Use trimmed text length
                 document.getElementById('word-count').textContent = words;
                 document.getElementById('char-count').textContent = characters;
             }
         }
 
-        // Function to format content professionally
-        function formatContent(output, formData) {
-            let title = 'Generated Content';
+        // HTML escape function to prevent XSS
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Improved function to format content while preserving AI structure
+        function formatContentPreserving(output, formData) {
+            // Extract title from first non-system field (works with ANY field name)
+            let title = '';
             for (let [key, value] of formData.entries()) {
-                if (key === 'Article_Title' || key === 'Topic') {
+                // Skip system fields
+                if (key !== '_token' && key !== 'language' && key !== 'ai_model' && key !== 'result_length') {
                     title = value;
                     break;
                 }
             }
 
-            const lines = output.split('\n').filter(line => line.trim() !== '');
+            // Fallback title
+            if (!title) {
+                title = '{{ $template->title ?? "Generated Content" }}';
+            }
 
-            let html = `<h2>${title}</h2>`;
+            // Process the AI output - preserve markdown-style formatting
+            let html = '';
+            const lines = output.split('\n');
 
-            const contentLines = lines.slice();
-            for (let i = 0; i < contentLines.length; i++) {
-                html += `<p>${contentLines[i]}</p>`;
-                if ((i + 1) % 3 === 0 && i + 1 < contentLines.length) {
-                    html += '<hr>';
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+
+                // Empty lines = spacing
+                if (line === '') {
+                    html += '<br>';
+                    continue;
+                }
+
+                // Escape HTML to prevent XSS
+                const escapedLine = escapeHtml(line);
+
+                // Check for markdown-style headings
+                if (line.startsWith('### ')) {
+                    html += `<h4>${escapeHtml(line.substring(4))}</h4>`;
+                } else if (line.startsWith('## ')) {
+                    html += `<h3>${escapeHtml(line.substring(3))}</h3>`;
+                } else if (line.startsWith('# ')) {
+                    html += `<h2>${escapeHtml(line.substring(2))}</h2>`;
+                }
+                // Bullet lists
+                else if (line.match(/^[*\-]\s+/)) {
+                    if (i === 0 || !lines[i-1].trim().match(/^[*\-]\s+/)) {
+                        html += '<ul>';
+                    }
+                    html += `<li>${escapeHtml(line.substring(2))}</li>`;
+                    if (i === lines.length - 1 || !lines[i+1].trim().match(/^[*\-]\s+/)) {
+                        html += '</ul>';
+                    }
+                }
+                // Numbered lists
+                else if (line.match(/^\d+\.\s+/)) {
+                    const match = line.match(/^(\d+)\.\s+(.+)$/);
+                    if (match) {
+                        if (i === 0 || !lines[i-1].trim().match(/^\d+\.\s+/)) {
+                            html += '<ol>';
+                        }
+                        html += `<li>${escapeHtml(match[2])}</li>`;
+                        if (i === lines.length - 1 || !lines[i+1].trim().match(/^\d+\.\s+/)) {
+                            html += '</ol>';
+                        }
+                    }
+                }
+                // Bold text **text**
+                else if (line.includes('**')) {
+                    let formatted = escapedLine.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    html += `<p>${formatted}</p>`;
+                }
+                // Regular paragraph
+                else {
+                    html += `<p>${escapedLine}</p>`;
                 }
             }
 
@@ -261,32 +364,127 @@
             item.addEventListener('click', function(e) {
                 e.preventDefault();
                 const editor = document.getElementById('editor-v1');
-                if (!editor) {
-                    alert('Editor content not found.');
+                if (!editor || !editor.innerHTML.trim()) {
+                    if (typeof toastr !== 'undefined') {
+                        toastr.warning('No content to export. Please generate content first.');
+                    } else {
+                        alert('No content to export. Please generate content first.');
+                    }
                     return;
                 }
 
-                const action = this.id || this.textContent.trim();
+                const action = this.id;
                 const templateTitle = document.querySelector('.nk-editor-title h4').textContent.trim() || 'Generated_Content';
                 const timestamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-                const fileNameBase = `${templateTitle}_${timestamp}`;
+                const fileNameBase = `${templateTitle.replace(/\s+/g, '_')}_${timestamp}`;
 
                 if (action === 'copy-text') {
-                    // Copy Text (already implemented)
+                    // Copy Text to clipboard
                     const content = editor.textContent || editor.innerText;
                     navigator.clipboard.writeText(content).then(() => {
-                        toastr.success('Text copied to clipboard!');
+                        if (typeof toastr !== 'undefined') {
+                            toastr.success('Text copied to clipboard!');
+                        } else {
+                            alert('Text copied to clipboard!');
+                        }
                     }).catch(err => {
+                        console.error('Copy failed:', err);
                         alert('Failed to copy text: ' + err);
                     });
-                } else if (action === 'Text File') {
-                    // Export as Text File
+                } else if (action === 'export-text') {
+                    // Export as Text File (.txt)
                     const content = editor.textContent || editor.innerText;
                     downloadFile(content, `${fileNameBase}.txt`, 'text/plain');
-                    toastr.success('Text file downloaded successfully!');
+                    if (typeof toastr !== 'undefined') {
+                        toastr.success('Text file downloaded successfully!');
+                    }
+                } else if (action === 'export-html') {
+                    // Export as HTML File (.html)
+                    const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${templateTitle}</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; }
+        h1, h2, h3, h4 { color: #333; margin-top: 20px; }
+        p { margin: 10px 0; }
+        ul, ol { margin: 10px 0; padding-left: 30px; }
+        strong { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>${templateTitle}</h1>
+    ${editor.innerHTML}
+</body>
+</html>`;
+                    downloadFile(htmlContent, `${fileNameBase}.html`, 'text/html');
+                    if (typeof toastr !== 'undefined') {
+                        toastr.success('HTML file downloaded successfully!');
+                    }
                 }
             });
         });
+
+        // Handle Save button functionality
+        const saveBtn = document.getElementById('save-content');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const editor = document.getElementById('editor-v1');
+
+                if (!editor || !editor.innerHTML.trim()) {
+                    if (typeof toastr !== 'undefined') {
+                        toastr.warning('No content to save. Please generate content first.');
+                    } else {
+                        alert('No content to save. Please generate content first.');
+                    }
+                    return;
+                }
+
+                // Disable save button and show loading state
+                saveBtn.disabled = true;
+                const originalHTML = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+
+                const content = editor.innerHTML;
+                const textContent = editor.textContent || editor.innerText;
+                const wordCount = textContent.trim().split(/\s+/).length;
+
+                // Save to browser's localStorage as backup
+                const saveData = {
+                    template_id: {{ $template->id }},
+                    template_title: '{{ $template->title }}',
+                    content: content,
+                    word_count: wordCount,
+                    saved_at: new Date().toISOString()
+                };
+
+                try {
+                    localStorage.setItem('saved_content_{{ $template->id }}', JSON.stringify(saveData));
+
+                    if (typeof toastr !== 'undefined') {
+                        toastr.success(`Content saved successfully! (${wordCount} words)`);
+                    } else {
+                        alert(`Content saved successfully! (${wordCount} words)`);
+                    }
+
+                    console.log('Content saved to localStorage:', saveData);
+                } catch (error) {
+                    console.error('Save failed:', error);
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error('Failed to save content: ' + error.message);
+                    } else {
+                        alert('Failed to save content: ' + error.message);
+                    }
+                } finally {
+                    // Re-enable button
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalHTML;
+                }
+            });
+        }
 
     </script>
 
