@@ -25,7 +25,7 @@ class GenerateController extends Controller
     public function GenerateAndSaveImage(Request $request){
 
         $request->validate([
-            'prompt' => 'required|string',
+            'prompt' => 'required|string|min:3|max:4000',
         ]);
 
         $prompt = $request->input('prompt');

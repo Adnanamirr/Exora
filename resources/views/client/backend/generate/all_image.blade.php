@@ -7,14 +7,14 @@
             <div class="nk-block-head nk-page-head">
                 <div class="nk-block-head-between">
                     <div class="nk-block-head-content">
-                        <h2 class="display-6">All Generate Imaeg Page   </h2>
+                        <h2 class="display-6">All Generate Images Page   </h2>
 
                     </div>
                 </div>
             </div><!-- .nk-page-head -->
 
 
-            <div class="card shadown-none">
+            <div class="card shadow-none">
                 <div class="card-body">
                     <div class="row row-cols-1 row-cols-md-2 g-4">
 
@@ -25,9 +25,6 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Prompt Code</h5>
                                         <p class="card-text">{{ $img->prompt }}</p>
-
-                                        <!-- Add download button for each image (matches generate_image blade behavior) -->
-                                        <a href="{{ asset($img->image_path) }}" download class="btn btn-sm btn-success mt-2">Download Image</a>
                                     </div>
                                 </div>
                             </div><!-- .col -->

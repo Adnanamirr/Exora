@@ -6,14 +6,14 @@
             <div class="nk-block-head nk-page-head">
                 <div class="nk-block-head-between">
                     <div class="nk-block-head-content">
-                        <h2 class="display-6">All Generate Imaeg Page   </h2>
+                        <h2 class="display-6">All Generate Images Page   </h2>
 
                     </div>
                 </div>
             </div><!-- .nk-page-head -->
 
 
-            <div class="card shadown-none">
+            <div class="card shadow-none">
                 <div class="card-body">
                     <div class="row row-cols-1 row-cols-md-2 g-4">
 

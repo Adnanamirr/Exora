@@ -6,7 +6,7 @@
             <div class="nk-block-head nk-page-head">
                 <div class="nk-block-head-between">
                     <div class="nk-block-head-content">
-                        <h2 class="display-6">Generate Imaeg Page   </h2>
+                        <h2 class="display-6">Generate Image Page   </h2>
 
                     </div>
                 </div>
